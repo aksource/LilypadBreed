@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "1.7srg-1", dependencies = "required-after:FML", useMetadata = true)
+@Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "1.7srg-2", dependencies = "required-after:FML", useMetadata = true)
 public class LilypadBreed
 {
 	@Mod.Instance("LilypadBreed")
@@ -39,7 +39,7 @@ public class LilypadBreed
 
 	@SubscribeEvent
 	public void BreedEvent(BonemealEvent event) {
-
+        if (event.block != Blocks.waterlily) return;
 		for (int x = -2 + event.x; x < 3 + event.x; x++) {
 			for (int z = -2 + event.z; z < 3 + event.z; z++) {
 				if (event.world.getBlock(x, event.y - 1, z) == Blocks.water
