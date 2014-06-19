@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "1.7srg-2", dependencies = "required-after:FML", useMetadata = true)
+@Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "@VERSION@", dependencies = "required-after:FML", useMetadata = true)
 public class LilypadBreed
 {
 	@Mod.Instance("LilypadBreed")
