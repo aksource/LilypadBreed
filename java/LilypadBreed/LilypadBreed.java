@@ -1,15 +1,17 @@
 package LilypadBreed;
 
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "@VERSION@", dependencies = "required-after:FML", useMetadata = true)
 public class LilypadBreed
@@ -39,16 +41,19 @@ public class LilypadBreed
 
 	@SubscribeEvent
 	public void BreedEvent(BonemealEvent event) {
-        if (event.block != Blocks.waterlily) return;
-		for (int x = -2 + event.x; x < 3 + event.x; x++) {
-			for (int z = -2 + event.z; z < 3 + event.z; z++) {
-				if (event.world.getBlock(x, event.y - 1, z) == Blocks.water
-						&& event.world.getBlock(x, event.y, z) == Blocks.air)
+        if (!event.block.getBlock().equals(Blocks.waterlily)) return;
+        BlockPos pos = event.pos;
+		for (int x = -2 + pos.getX(); x < 3 + pos.getX(); x++) {
+			for (int z = -2 + pos.getZ(); z < 3 + pos.getZ(); z++) {
+                IBlockState state1 = event.world.getBlockState(new BlockPos(x, pos.getY() - 1, z));
+                IBlockState state2 = event.world.getBlockState(new BlockPos(x, pos.getY(), z));
+				if (state1.getBlock() == Blocks.water
+						&& state2.getBlock() == Blocks.air)
 				{
-					if (x == event.x && z == event.z
+					if (x == pos.getX() && z == pos.getZ()
 							|| event.world.rand.nextInt(100) < LilypadBreed.LilypadRate)
 					{
-						event.world.setBlock(x, event.y, z, Blocks.waterlily);
+						event.world.setBlockState(new BlockPos(x, pos.getY(), z), Blocks.waterlily.getDefaultState());
 					}
 				}
 			}
