@@ -13,13 +13,21 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod(modid = "LilypadBreed", name = "LilypadBreed", version = "@VERSION@", dependencies = "required-after:FML", useMetadata = true)
-public class LilypadBreed
-{
-	@Mod.Instance("LilypadBreed")
-	public static LilypadBreed instance;
+@Mod(modid = LilypadBreed.MOD_ID,
+        name = LilypadBreed.MOD_NAME,
+        version = LilypadBreed.MOD_VERSION,
+        dependencies = LilypadBreed.MOD_DEPENDENCIES,
+        useMetadata = true,
+        acceptedMinecraftVersions = LilypadBreed.MOD_MC_VERSION)
+public class LilypadBreed {
 
-	public static int LilypadRate = 25;
+    public static final String MOD_ID = "lilypadbreed";
+    public static final String MOD_NAME = "LilyPadBreed";
+    public static final String MOD_VERSION = "@VERSION@";
+    public static final String MOD_DEPENDENCIES = "required-after:Forge@[11.14.0.1237,)";
+    public static final String MOD_MC_VERSION = "[1.8,1.8.9]";
+
+	public static int intLilyPadRate = 25;
 	public static Block waterlily;
 
 	@Mod.EventHandler
@@ -27,9 +35,9 @@ public class LilypadBreed
 	{
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-		LilypadRate = config.get(Configuration.CATEGORY_GENERAL, "LilypadRate", 25,
+		intLilyPadRate = config.get(Configuration.CATEGORY_GENERAL, "LilypadRate", 25,
 				"LilyPad Spown Rate(0%-100%), min = 0, max = 100").getInt();
-		LilypadRate = (LilypadRate < 0) ? 0 : (LilypadRate > 100) ? 100 : LilypadRate;
+		intLilyPadRate = (intLilyPadRate < 0) ? 0 : (intLilyPadRate > 100) ? 100 : intLilyPadRate;
 		config.save();
 	}
 
@@ -51,7 +59,7 @@ public class LilypadBreed
 						&& state2.getBlock() == Blocks.air)
 				{
 					if (x == pos.getX() && z == pos.getZ()
-							|| event.world.rand.nextInt(100) < LilypadBreed.LilypadRate)
+							|| event.world.rand.nextInt(100) < LilypadBreed.intLilyPadRate)
 					{
 						event.world.setBlockState(new BlockPos(x, pos.getY(), z), Blocks.waterlily.getDefaultState());
 					}
